@@ -1,0 +1,188 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #fff; /* White text for better contrast on dark background */
+    background-color: #000; /* Black background */
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* Header Styles */
+header {
+    background: #000; /* Black header */
+    color: #ff8c42; /* Orange text */
+    padding: 20px 0;
+    border-bottom: 2px solid #ff8c42; /* Orange border */
+}
+
+header h1 {
+    margin: 0;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #ff8c42; /* Orange links */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #fff; /* White on hover */
+}
+
+/* Hero Section with Profile Picture */
+#hero {
+    text-align: center;
+    padding: 100px 0;
+    background: linear-gradient(135deg, #000, #333); /* Dark gradient */
+    color: #fff;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #ff8c42; /* Orange border */
+    box-shadow: 0 4px 15px rgba(255, 140, 66, 0.5); /* Orange shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-picture:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    box-shadow: 0 6px 20px rgba(255, 140, 66, 0.8); /* Brighter shadow on hover */
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#hero h2 {
+    font-size: 2.5rem;
+    margin: 20px 0 10px;
+    color: #ff8c42; /* Orange heading */
+}
+
+#hero p {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #fff; /* White text */
+}
+
+/* Section Styles */
+.section {
+    padding: 50px 0;
+    background: #000; /* Black background */
+}
+
+.section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff8c42; /* Orange heading */
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#projects {
+    background: #111; /* Slightly lighter black for contrast */
+}
+
+#projects img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ff8c42; /* Orange border for images */
+    border-radius: 10px;
+    margin: 10px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#projects img:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 4px 15px rgba(255, 140, 66, 0.5); /* Orange shadow on hover */
+}
+
+#projects ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+#projects ul li {
+    margin: 10px 0;
+}
+
+#projects ul li a {
+    color: #ff8c42; /* Orange links */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+#projects ul li a:hover {
+    color: #fff; /* White on hover */
+}
+
+/* Contact Section */
+#contact {
+    background: #000; /* Black background */
+}
+
+#contact ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+#contact ul li {
+    margin: 10px 0;
+}
+
+#contact ul li a {
+    color: #ff8c42; /* Orange links */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+#contact ul li a:hover {
+    color: #fff; /* White on hover */
+}
+
+/* Footer Styles */
+footer {
+    background: #000; /* Black footer */
+    color: #ff8c42; /* Orange text */
+    text-align: center;
+    padding: 20px 0;
+    border-top: 2px solid #ff8c42; /* Orange border */
+}
+
+footer p {
+    margin: 0;
+    font-size: 1rem;
+}
