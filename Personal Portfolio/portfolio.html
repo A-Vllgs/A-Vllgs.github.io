@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allyza's Personal Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --teal: #009189;
+            --light-blue: #BAE4F0;
+            --navy: #004E9B;
+            --orange: #FF6500;
+            --yellow: #FFD500;
+            --white: #ffffff;
+            --dark: #1a1a1a;
+            --gray: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--teal) 100%);
+            min-height: 100vh;
+        }
+
+        /* Page Transitions */
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 2;
+        }
+
+        .page.prev {
+            transform: translateX(-100%);
+        }
+
+        /* Home Page Styles */
+        #home {
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--teal) 50%, var(--navy) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .portfolio-title {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--white);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .home-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 3;
+        }
+
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .profile-image-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--white);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--orange), var(--yellow));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .greeting h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .role h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--yellow);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navigation {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .nav-btn {
+            position: relative;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-btn {
+            background: linear-gradient(45deg, var(--teal), var(--navy));
+            color: var(--white);
+        }
+
+        .projects-btn {
+            background: linear-gradient(45deg, var(--orange), var(--yellow));
+            color: var(--white);
+        }
+
+        .contacts-btn {
+            background: linear-gradient(45deg, var(--navy), var(--teal));
+            color: var(--white);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-glow {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-btn:hover .btn-glow {
+            left: 100%;
+        }
+
+        /* Floating Shapes */
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 100px;
+            height: 100px;
+            background: var(--orange);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            background: var(--yellow);
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .shape-3 {
+            width: 80px;
+            height: 80px;
+            background: var(--white);
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .shape-4 {
+            width: 120px;
+            height: 120px;
+            background: var(--navy);
+            top: 30%;
+            right: 30%;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Page Headers */
+        .page-header {
+            position: absolute;
+            top: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--white);
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            letter-spacing: 3px;
+        }
+
+        /* Page Backgrounds */
+        .page-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .bg-shapes {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: bgFloat 8s ease-in-out infinite;
+        }
+
+        .bg-shape-1 {
+            width: 200px;
+            height: 200px;
+            background: var(--orange);
+            top: 15%;
+            left: 5%;
+        }
+
+        .bg-shape-2 {
+            width: 150px;
+            height: 150px;
+            background: var(--yellow);
+            top: 70%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .bg-shape-3 {
+            width: 100px;
+            height: 100px;
+            background: var(--white);
+            bottom: 10%;
+            left: 30%;
+            animation-delay: 4s;
+        }
+
+        .bg-shape-4 {
+            width: 180px;
+            height: 180px;
+            background: var(--teal);
+            top: 20%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+
+        .bg-shape-5 {
+            width: 120px;
+            height: 120px;
+            background: var(--navy);
+            bottom: 30%;
+            left: 15%;
+            animation-delay: 3s;
+        }
+
+        .bg-shape-6 {
+            width: 90px;
+            height: 90px;
+            background: var(--orange);
+            top: 50%;
+            left: 50%;
+            animation-delay: 5s;
+        }
+
+        .bg-shape-7 {
+            width: 160px;
+            height: 160px;
+            background: var(--yellow);
+            top: 10%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .bg-shape-8 {
+            width: 140px;
+            height: 140px;
+            background: var(--teal);
+            bottom: 20%;
+            right: 20%;
+            animation-delay: 2s;
+        }
+
+        .bg-shape-9 {
+            width: 110px;
+            height: 110px;
+            background: var(--navy);
+            top: 60%;
+            left: 10%;
+            animation-delay: 4s;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        /* About Page */
+        #about {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 50%, var(--light-blue) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 800px;
+            padding: 2rem;
+            text-align: center;
+            z-index: 3;
+        }
+
+        .about-text {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .about-text p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--white);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .highlight {
+            color: var(--yellow);
+            font-weight: 600;
+        }
+
+        /* Projects Page */
+        #projects {
+            background: linear-gradient(135deg, var(--orange) 0%, var(--yellow) 50%, var(--light-blue) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .projects-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            z-index: 3;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            max-width: 900px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(45deg, var(--navy), var(--teal));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Contacts Page */
+        #contacts {
+            background: linear-gradient(135deg, var(--teal) 0%, var(--navy) 50%, var(--light-blue) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contacts-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 600px;
+            padding: 2rem;
+            text-align: center;
+            z-index: 3;
+        }
+
+        .contact-intro {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-intro p {
+            font-size: 1.2rem;
+            color: var(--white);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--yellow);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-link {
+            font-size: 1rem;
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .email-link {
+            background: linear-gradient(45deg, var(--orange), var(--yellow));
+        }
+
+        .linkedin-link {
+            background: linear-gradient(45deg, var(--navy), var(--teal));
+        }
+
+        .github-link {
+            background: linear-gradient(45deg, var(--teal), var(--light-blue));
+        }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Swipe Buttons */
+        .swipe-btn, .back-home-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, var(--white), var(--light-blue));
+            color: var(--navy);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .swipe-btn:hover, .back-home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .swipe-btn:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        .back-home-btn:hover .arrow {
+            transform: translateX(-5px);
+        }
+
+        /* Particle Animation */
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 213, 0, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            animation: particleFloat 3s linear forwards;
+        }
+
+        @keyframes particleFloat {
+            to {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .portfolio-title {
+                font-size: 1.2rem;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            .greeting h2 {
+                font-size: 2rem;
+            }
+            
+            .role h3 {
+                font-size: 1.2rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .about-text {
+                padding: 2rem;
+            }
+            
+            .about-text p {
+                font-size: 1rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .greeting h2 {
+                font-size: 1.5rem;
+            }
+            
+            .about-text {
+                padding: 1.5rem;
+            }
+            
+            .project-card {
+                padding: 1.5rem;
+            }
+            
+            .contacts-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <header>
+            <h1 class="portfolio-title">Personal Portfolio</h1>
+        </header>
+        
+        <main class="home-content">
+            <div class="profile-section">
+                <div class="profile-image-container">
+                    <div class="profile-image">
+                        <img src="mypic.png" alt="Allyza's Profile Picture" />
+                    </div>
+                    <div class="greeting">
+                        <h2>Hello, I'm Allyza!</h2>
+                    </div>
+                </div>
+                
+                <div class="role">
+                    <h3>Frontend Developer</h3>
+                </div>
+                
+                <nav class="navigation">
+                    <button class="nav-btn about-btn" onclick="navigateTo('about')">
+                        <span>About</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="nav-btn projects-btn" onclick="navigateTo('projects')">
+                        <span>Projects</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="nav-btn contacts-btn" onclick="navigateTo('contacts')">
+                        <span>Contacts</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </nav>
+            </div>
+        </main>
+        
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="page-background">
+            <div class="bg-shapes">
+                <div class="bg-shape bg-shape-1"></div>
+                <div class="bg-shape bg-shape-2"></div>
+                <div class="bg-shape bg-shape-3"></div>
+            </div>
+        </div>
+        
+        <header class="page-header">
+            <h1>ABOUT</h1>
+        </header>
+        
+        <main class="about-content">
+            <div class="about-text">
+                <p>Hello! I'm <span class="highlight">Allyza Villegas</span>, a BS Information Systems student at <span class="highlight">Mapúa Malayan Colleges Mindanao</span>, passionate about web development and digital innovation. I'm a developer with a passion for creating innovative solutions. I enjoy working on projects that challenge me and help me grow. Feel free to explore my GitHub projects below.</p>
+            </div>
+            
+            <button class="swipe-btn" onclick="navigateTo('projects')">
+                <span>Explore Projects</span>
+                <div class="arrow">→</div>
+            </button>
+        </main>
+    </div>
+
+    <!-- Projects Page -->
+    <div id="projects" class="page">
+        <div class="page-background">
+            <div class="bg-shapes">
+                <div class="bg-shape bg-shape-4"></div>
+                <div class="bg-shape bg-shape-5"></div>
+                <div class="bg-shape bg-shape-6"></div>
+            </div>
+        </div>
+        
+        <header class="page-header">
+            <h1>PROJECTS</h1>
+        </header>
+        
+        <main class="projects-content">
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="certificate.png" alt="Certificate Project" />
+                    </div>
+                    <a href="#" class="project-link" target="_blank">View Certificate</a>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="Aws.png" alt="AWS Badge" />
+                    </div>
+                    <a href="https://www.credly.com/badges/3059078f-7739-4174-8000-46adc33c19b0" class="project-link" target="_blank">View AWS Badge</a>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="introduction-to-iot.png" alt="IoT Badge" />
+                    </div>
+                    <a href="https://www.credly.com/badges/a5f7f37c-794a-4a04-b4ca-9184075eeba0/public_url" class="project-link" target="_blank">View IoT Badge</a>
+                </div>
+            </div>
+            
+            <button class="swipe-btn" onclick="navigateTo('contacts')">
+                <span>Get In Touch</span>
+                <div class="arrow">→</div>
+            </button>
+        </main>
+    </div>
+
+    <!-- Contacts Page -->
+    <div id="contacts" class="page">
+        <div class="page-background">
+            <div class="bg-shapes">
+                <div class="bg-shape bg-shape-7"></div>
+                <div class="bg-shape bg-shape-8"></div>
+                <div class="bg-shape bg-shape-9"></div>
+            </div>
+        </div>
+        
+        <header class="page-header">
+            <h1>CONTACTS</h1>
+        </header>
+        
+        <main class="contacts-content">
+            <div class="contact-intro">
+                <p>If you'd like to get in touch, feel free to reach out via email or connect with me here</p>
+            </div>
+            
+            <div class="contact-links">
+                <div class="contact-item">
+                    <span class="contact-label">Email:</span>
+                    <a href="mailto:villegasallyzafe@gmail.com" class="contact-link email-link">
+                        villegasallyzafe@gmail.com
+                    </a>
+                </div>
+                
+                <div class="contact-item">
+                    <span class="contact-label">LinkedIn:</span>
+                    <a href="https://www.linkedin.com/in/allyza-fe-villegas-b0a82929a" class="contact-link linkedin-link" target="_blank">
+                        Allyza Fe Villegas
+                    </a>
+                </div>
+                
+                <div class="contact-item">
+                    <span class="contact-label">GitHub:</span>
+                    <a href="https://github.com/A-Vllgs" class="contact-link github-link" target="_blank">
+                        A-Vllgs
+                    </a>
+                </div>
+            </div>
+            
+            <button class="back-home-btn" onclick="navigateTo('home')">
+                <span>Back to Home</span>
+                <div class="arrow">←</div>
+            </button>
+        </main>
+    </div>
+
+    <script>
+        // Navigation functionality
+        let currentPage = 'home';
+
+        function navigateTo(targetPage) {
+            const currentPageElement = document.getElementById(currentPage);
+            const targetPageElement = document.getElementById(targetPage);
+            
+            // Remove active class from current page
+            currentPageElement.classList.remove('active');
+            currentPageElement.classList.add('prev');
+            
+            // Add active class to target page
+            setTimeout(() => {
+                targetPageElement.classList.add('active');
+                currentPage = targetPage;
+                
+                // Clean up previous page classes after transition
+                setTimeout(() => {
+                    currentPageElement.classList.remove('prev');
+                }, 600);
+            }, 50);
+        }
+
+        // Add smooth scrolling and accessibility features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && currentPage !== 'home') {
+                    navigateTo('home');
+                }
+            });
+            
+            // Add focus management for accessibility
+            const buttons = document.querySelectorAll('button, a');
+            buttons.forEach(button => {
+                button.addEventListener('focus', function() {
+                    this.style.outline = '2px solid #FFD500';
+                    this.style.outlineOffset = '2px';
+                });
+                
+                button.addEventListener('blur', function() {
+                    this.style.outline = 'none';
+                });
+            });
+            
+            // Add loading animation
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.project-card, .contact-item, .about-text');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Add particle effect for enhanced aesthetics
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = window.innerHeight + 'px';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 3000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 2000);
+
+        // Add smooth page transitions with overlay effect
+        function addTransitionEffect() {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, #009189, #004E9B);
+                z-index: 9999;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            `;
+            
+            document.body.appendChild(overlay);
+            
+            setTimeout(() => {
+                overlay.style.opacity = '0.8';
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 300);
+                }, 200);
+            }, 50);
+        }
+
+        // Enhanced navigation with transition effects
+        const originalNavigateTo = navigateTo;
+        navigateTo = function(targetPage) {
+            addTransitionEffect();
+            setTimeout(() => {
+                originalNavigateTo(targetPage);
+            }, 250);
+        };
+    </script>
+</body>
+</html>
